@@ -1,0 +1,66 @@
+# Lightweight Configuration for Testing (Low Memory)
+# Optimized for systems with limited RAM
+
+defaults:
+  - ../base_config
+
+experiment:
+  name: "config2_lightweight_test"
+
+# Reduced image size to save memory
+environment:
+  render_size: [300, 200]  # 50% of original (600×400)
+  pad_to: [304, 208]  # Divisible by 16: 19×13 = 247 patches per frame
+
+# Smaller model architecture
+model:
+  d_emb: 32  # Half the embedding dimension (64 -> 32)
+  patch_size: 16
+  num_heads: 2  # Fewer attention heads (4 -> 2)
+  num_layers: 2  # Fewer transformer layers (4 -> 2)
+  dropout: 0.1
+  momentum: 0.99
+
+# Smaller predictor
+predictor:
+  hidden_dim: 64  # Half the hidden size (128 -> 64)
+  num_layers: 2
+
+# Memory-efficient training settings
+training:
+  total_steps: 10000  # Short test run (100k -> 10k)
+  rollout_steps: 512  # Much smaller rollout buffer (2048 -> 512)
+  ppo_epochs: 2  # Fewer epochs (4 -> 2)
+  mini_batch_size: 32  # Smaller batches (64 -> 32)
+  learning_rate: 3.0e-4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  entropy_coef: 0.01
+  value_loss_coef: 0.5
+  max_grad_norm: 0.5
+
+# Config 2: JEPA + RL gradients (best configuration)
+configuration:
+  type: 2
+  use_jepa: true
+  use_rl_gradients: true
+  use_regularization: false
+
+losses:
+  jepa_weight: 1.0
+  actor_weight: 1.0
+  critic_weight: 0.5
+  reg_weight: 0.1
+
+# More frequent logging for shorter run
+logging:
+  log_interval: 500  # Log every 500 steps (was 1000)
+  eval_interval: 2000
+  save_interval: 5000
+  use_tensorboard: true
+  use_wandb: false
+
+collapse:
+  variance_threshold: 0.01
+  check_interval: 100

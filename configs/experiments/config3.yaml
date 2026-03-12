@@ -1,0 +1,13 @@
+# Configuration 3: JEPA without RL gradients (Demonstrates collapse)
+
+defaults:
+  - ../base_config
+
+experiment:
+  name: "config3_jepa_no_rl_gradients"
+
+configuration:
+  type: 3
+  use_jepa: true
+  use_rl_gradients: false
+  use_regularization: false

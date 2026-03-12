@@ -1,0 +1,54 @@
+experiment:
+  name: "quick_test"
+  seed: 42
+  device: "cpu"
+
+model:
+  d_emb: 64
+  patch_size: 16
+  num_layers: 2  # Smaller for speed
+  num_heads: 2
+  dropout: 0.1
+  momentum: 0.99
+
+predictor:
+  hidden_dim: 128
+
+environment:
+  render_size: [600, 400]
+  pad_to: [608, 400]
+  frame_stack: 3
+  normalize_pixels: true
+
+training:
+  total_steps: 5000  # Just 5k steps for quick test
+  rollout_steps: 512
+  ppo_epochs: 4
+  mini_batch_size: 64
+  learning_rate: 3.0e-4
+  gamma: 0.99
+  gae_lambda: 0.95
+  entropy_coef: 0.01
+  clip_epsilon: 0.2
+  max_grad_norm: 0.5
+
+configuration:
+  type: 2  # Best config
+  use_jepa: true
+  use_rl_gradients: true
+  use_regularization: false
+
+losses:
+  jepa_weight: 1.0
+  actor_weight: 1.0
+  critic_weight: 0.5
+  reg_weight: 0.1
+
+logging:
+  log_interval: 500
+  save_interval: 2500
+  use_tensorboard: true
+  use_wandb: false
+
+collapse:
+  variance_threshold: 0.01

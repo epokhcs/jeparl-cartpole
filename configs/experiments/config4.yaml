@@ -1,0 +1,13 @@
+# Configuration 4: JEPA + Regularization, no RL gradients
+
+defaults:
+  - ../base_config
+
+experiment:
+  name: "config4_jepa_with_regularization"
+
+configuration:
+  type: 4
+  use_jepa: true
+  use_rl_gradients: false
+  use_regularization: true
