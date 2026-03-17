@@ -20,7 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
+./notebooks/
 # Virtual environments
 venv/
 ENV/
@@ -37,19 +37,35 @@ env/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-*.ipynb
 
-# PyTorch
+# EXCEPT: Keep analysis notebooks
+!notebooks/*.ipynb
+
+# PyTorch models (general)
 *.pt
 *.pth
 *.ckpt
 
-# Results and logs
+# EXCEPT: Keep final trained checkpoints
+!results/lightweight_100k/**/checkpoints/checkpoint_step_100*.pt
+!results/b200_full_paper/**/checkpoints/checkpoint_step_100*.pt
+
+# Results and logs (general)
 results/
 logs/
 runs/
 wandb/
 *.log
+
+# EXCEPT: Keep critical publication results
+!results/b200_learning_curves.png
+!results/m4_vs_b200_comparison.png
+!results/lightweight_100k/
+!results/b200_full_paper/
+
+# EXCEPT: Keep visualization scripts
+!scripts/results/
+!scripts/results/visualization/
 
 # Experiment outputs
 checkpoints/

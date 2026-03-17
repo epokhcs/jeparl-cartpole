@@ -1,0 +1,66 @@
+# Configuration 1: Baseline - LIGHTWEIGHT 100K
+# Memory-optimized for Apple M4 with extended training
+# Proven to work: 300×200 images fit in memory perfectly
+
+defaults:
+  - ../base_config
+
+experiment:
+  name: "config4_jepa_reg_lightweight_100k"
+  device: "mps"
+
+# Lightweight image size (proven to work)
+environment:
+  render_size: [300, 200]
+  pad_to: [304, 208]  # 19×13 = 247 patches
+
+# Full paper model architecture (we can use full model with smaller images)
+model:
+  d_emb: 64  # Keep full capacity
+  patch_size: 16
+  num_heads: 4  # Keep full model
+  num_layers: 4
+  dropout: 0.1
+  momentum: 0.99
+
+predictor:
+  hidden_dim: 128
+  num_layers: 2
+
+# Extended training with memory-safe settings
+training:
+  total_steps: 100000  # 10x more than lightweight
+  rollout_steps: 512
+  ppo_epochs: 4
+  mini_batch_size: 32
+  learning_rate: 3.0e-4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  entropy_coef: 0.01
+  value_loss_coef: 0.5
+  max_grad_norm: 0.5
+
+# Config 4: JEPA + regularization
+configuration:
+  type: 4
+  use_jepa: true
+  use_rl_gradients: false
+  use_regularization: true
+
+losses:
+  jepa_weight: 1.0
+  actor_weight: 1.0
+  critic_weight: 0.5
+  reg_weight: 0.1
+
+logging:
+  log_interval: 1000
+  eval_interval: 5000
+  save_interval: 10000
+  use_tensorboard: true
+  use_wandb: false
+
+collapse:
+  variance_threshold: 0.01
+  check_interval: 100

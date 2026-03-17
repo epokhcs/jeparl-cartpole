@@ -4,7 +4,14 @@ import torch
 import numpy as np
 from collections import deque
 from typing import Dict, List, Optional
-import matplotlib.pyplot as plt
+
+# Make matplotlib optional for environments without display
+try:
+    import matplotlib.pyplot as plt
+    HAS_MATPLOTLIB = True
+except (ImportError, RuntimeError) as e:
+    HAS_MATPLOTLIB = False
+    plt = None
 
 
 class EmbeddingMonitor:
@@ -152,6 +159,10 @@ class EmbeddingMonitor:
             save_path: Optional path to save figure
             show: Whether to show plot
         """
+        if not HAS_MATPLOTLIB:
+            print("Warning: matplotlib not available, skipping plot")
+            return
+
         if len(self.variance_history) == 0:
             print("No variance history to plot")
             return
@@ -205,6 +216,10 @@ class EmbeddingMonitor:
             show: Whether to show plot
             max_steps: Maximum number of time steps to show
         """
+        if not HAS_MATPLOTLIB:
+            print("Warning: matplotlib not available, skipping plot")
+            return
+
         if len(self.per_dim_variance_history) == 0:
             print("No per-dimension variance history to plot")
             return
@@ -349,6 +364,10 @@ class MultiEmbeddingMonitor:
             save_path: Optional save path
             show: Whether to show plot
         """
+        if not HAS_MATPLOTLIB:
+            print("Warning: matplotlib not available, skipping plot")
+            return
+
         fig, ax = plt.subplots(figsize=(12, 6))
 
         for name, monitor in self.monitors.items():

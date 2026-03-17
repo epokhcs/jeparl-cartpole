@@ -1,0 +1,65 @@
+# Configuration 2: JEPA + RL Gradients (Best) - FULL PAPER SPECS
+# Original paper specifications: 64-dim, 4 layers, 600×400 images, 100k steps
+
+defaults:
+  - ../base_config
+
+experiment:
+  name: "config2_jepa_rl_full_paper"
+  device: "mps"
+
+# Full paper image size
+environment:
+  render_size: [600, 400]
+  pad_to: [608, 400]
+
+# Full paper model
+model:
+  d_emb: 64
+  patch_size: 16
+  num_heads: 4
+  num_layers: 4
+  dropout: 0.1
+  momentum: 0.99
+
+predictor:
+  hidden_dim: 128
+  num_layers: 2
+
+# Full paper training settings
+training:
+  total_steps: 100000
+  rollout_steps: 2048
+  ppo_epochs: 4
+  mini_batch_size: 64
+  learning_rate: 3.0e-4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  entropy_coef: 0.01
+  value_loss_coef: 0.5
+  max_grad_norm: 0.5
+
+# Config 2: JEPA + RL gradients (best performing)
+configuration:
+  type: 2
+  use_jepa: true
+  use_rl_gradients: true
+  use_regularization: false
+
+losses:
+  jepa_weight: 1.0
+  actor_weight: 1.0
+  critic_weight: 0.5
+  reg_weight: 0.1
+
+logging:
+  log_interval: 1000
+  eval_interval: 5000
+  save_interval: 10000
+  use_tensorboard: true
+  use_wandb: false
+
+collapse:
+  variance_threshold: 0.01
+  check_interval: 100
