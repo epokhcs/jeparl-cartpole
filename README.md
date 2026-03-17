@@ -85,7 +85,6 @@ jeparl-cartpole/
 │   ├── visualize_embeddings.py     # Embedding visualization
 │   └── compare_results.py          # Multi-config comparison
 ├── tests/                   # Unit and integration tests
-├── notebooks/               # Jupyter notebooks for analysis
 └── results/                 # Experiment outputs
 ```
 
@@ -284,10 +283,14 @@ training:
 If you use this implementation, please cite the original paper:
 
 ```bibtex
-@article{jepa_rl_2024,
-  title={JEPA for RL: Investigating Joint-Embedding Predictive Architectures for Reinforcement Learning},
-  author={[Authors]},
-  year={2024}
+@misc{kenneweg2025jeparlinvestigatingjointembedding,
+      title={JEPA for RL: Investigating Joint-Embedding Predictive Architectures for Reinforcement Learning},
+      author={Tristan Kenneweg and Philip Kenneweg and Barbara Hammer},
+      year={2025},
+      eprint={2504.16591},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2504.16591},
 }
 ```
 
